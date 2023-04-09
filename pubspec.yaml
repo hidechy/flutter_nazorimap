@@ -1,0 +1,32 @@
+name: test_googlemap_onpanupdate
+description: A new Flutter project.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.18.6 <3.0.0'
+
+dependencies:
+
+  cupertino_icons: ^1.0.2
+
+  flutter:
+    sdk: flutter
+
+  geolocator: ^9.0.2
+
+  google_maps_flutter: ^2.2.5
+
+  hooks_riverpod: ^2.3.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+
+  uses-material-design: true
