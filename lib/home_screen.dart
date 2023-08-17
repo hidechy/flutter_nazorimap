@@ -11,14 +11,15 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+//=================================================//
 final drawPolygonEnabledProvider = StateProvider<bool>((ref) => false);
 
 final clearDrawingProvider = StateProvider<bool>((ref) => false);
 
 final polygonSetProvider = StateProvider<Set<Polygon>>((ref) => {});
 
-final getUserLocationProvider =
-    StateProvider<LatLng>((ref) => const LatLng(0, 0));
+final getUserLocationProvider = StateProvider<LatLng>((ref) => const LatLng(0, 0));
+//=================================================//
 
 ///
 class HomeScreen extends StatefulHookConsumerWidget {
@@ -118,8 +119,8 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
 
       if (_lastXCoordinate != null && _lastYCoordinate != null) {
         final distance = math.sqrt(
-            math.pow(xCoordinate - _lastXCoordinate!, 2) +
-                math.pow(yCoordinate - _lastYCoordinate!, 2));
+          math.pow(xCoordinate - _lastXCoordinate!, 2) + math.pow(yCoordinate - _lastYCoordinate!, 2),
+        );
 
         if (distance > 80.0) {
           return;
@@ -140,8 +141,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
         _latLngList.add(latLng);
 
         _polylineSet
-          ..removeWhere(
-              (polyline) => polyline.polylineId.value == 'user_polyline')
+          ..removeWhere((polyline) => polyline.polylineId.value == 'user_polyline')
           ..add(
             Polyline(
               polylineId: const PolylineId('user_polyline'),
@@ -177,6 +177,24 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
           fillColor: Colors.blue.withOpacity(0.4),
         ),
       );
+
+    /*
+    print(_polygonSet.first.points.length);
+    print(_polygonSet.first.points);
+
+I/flutter ( 1134): 115
+I/flutter ( 1134): [
+LatLng(35.71194582489052, 139.94988664984703),
+LatLng(35.71192921877202, 139.95003081858158),
+LatLng(35.71191234041853, 139.95011296123266),
+LatLng(35.711879128164135, 139.95023667812347),
+LatLng(35.711879128164135, 139.95031882077456),
+LatLng(35.71184564366413, 139.9504012987018),
+LatLng(35.71181215915008, 139.95048377662897),
+LatLng(35.71177867462193, 139.95058670639992),
+LatLng(35.7117620684686, 139.950668849051),
+LatLng(35.71172858391942, 139.9507513269782), LatLng(35.71171170552345, 139.95083380490541), LatLng(35.711678493185424, 139.9509159475565), LatLng(35.711661614778855, 139.95099842548373), LatLng(35.71162813018745, 139.95106011629105), LatLng(35.71159491781461, 139.9511218070984), LatLng(35.71156143319522, 139.951163046062), LatLng(35.71154455476384, 139.95122507214546), LatLng(35.7114944639142, 139.9512867629528), LatLng(35.71147785770167, 139.95130721479654), LatLng(35.71141088835042, 139.95138969272375), LatLng(35.71137740365368, 139.95143093168736), LatLng(35.71134391894289, 139.951471835374
+    */
 
     ref.read(drawPolygonEnabledProvider.state).update((state) => !state);
   }
@@ -222,13 +240,11 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
       return Future.error('位置情報サービスの権限が永久に拒否されています。権限を要求することができません。');
     }
 
-    final position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    final position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
     _loading = false;
 
-    ref.read(getUserLocationProvider.state).state =
-        LatLng(position.latitude, position.longitude);
+    ref.read(getUserLocationProvider.state).state = LatLng(position.latitude, position.longitude);
 
     return position;
   }
