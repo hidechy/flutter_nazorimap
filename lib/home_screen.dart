@@ -143,12 +143,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
         _polylineSet
           ..removeWhere((polyline) => polyline.polylineId.value == 'user_polyline')
           ..add(
-            Polyline(
-              polylineId: const PolylineId('user_polyline'),
-              points: _latLngList,
-              width: 2,
-              color: Colors.blue,
-            ),
+            Polyline(polylineId: const PolylineId('user_polyline'), points: _latLngList, width: 2, color: Colors.blue),
           );
       } catch (e) {
         if (kDebugMode) {
